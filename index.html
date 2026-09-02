@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aircraft Battle</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             background-color: #0f172a;
@@ -29,8 +29,7 @@
 </head>
 <body class="flex flex-col items-center justify-center h-screen overflow-hidden m-0 p-0">
 
-    <!-- Header UI (In-Game) -->
-    <div id="ui-header" class="w-full max-w-md justify-between items-center px-4 py-2 bg-slate-900 border-b border-slate-700 text-xs font-bold z-10 shadow-lg" style="display: none;">
+    <div id="ui-header" class="w-full max-w-md justify-between items-center px-4 py-2 bg-slate-900 border-b border-slate-700 text-xs font-bold z-10 shadow-lg absolute top-0" style="display: none;">
         <div>SKOR: <span id="score-val" class="text-amber-400">0</span></div>
         <div>NYAWA: <span id="lives-val" class="text-rose-500">❤️❤️❤️</span></div>
         <div class="flex items-center gap-2">
@@ -39,20 +38,17 @@
         </div>
     </div>
 
-    <!-- Canvas Game Container -->
-    <div class="relative w-full max-w-md flex-1 flex justify-center items-center bg-black overflow-hidden shadow-2xl">
+    <div class="relative w-full max-w-md flex-1 flex justify-center items-center bg-black overflow-hidden shadow-2xl h-full">
         <canvas id="gameCanvas"></canvas>
 
-        <!-- Tombol Skill Spesial dengan Crosshair -->
-        <div id="skill-btn-container" class="absolute bottom-4 right-4 z-20" style="display: none;">
+        <div id="skill-btn-container" class="absolute bottom-10 right-4 z-20" style="display: none;">
             <button id="special-skill-btn" class="bg-gradient-to-t from-purple-700 to-indigo-500 hover:from-purple-600 hover:to-indigo-400 active:scale-90 text-white font-black w-16 h-16 rounded-full shadow-2xl border-2 border-indigo-300 flex flex-col items-center justify-center text-[10px] tracking-wider cursor-pointer">
                 <span>SKILL</span>
                 <span id="skill-cd" class="text-[9px] text-amber-300">READY</span>
             </button>
         </div>
 
-        <!-- Menu Utama -->
-        <div id="main-menu" class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25" style="display: flex;">
+        <div id="main-menu" class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25">
             
             <div class="mb-4 relative w-20 h-20 bg-slate-900 border-2 border-amber-500/50 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.3)]">
                 <svg class="w-12 h-12 text-amber-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -76,7 +72,6 @@
             </div>
         </div>
 
-        <!-- Menu Pemilihan Level -->
         <div id="level-menu" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25" style="display: none;">
             <button class="back-to-main absolute top-4 left-4 bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md cursor-pointer text-lg">
                 ⬅️
@@ -102,7 +97,6 @@
             </div>
         </div>
 
-        <!-- Popup Jeda Tips Cara Bermain (3 Detik) -->
         <div id="tips-popup" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-30" style="display: none;">
             <div class="bg-slate-900 border border-amber-500/50 p-6 rounded-2xl max-w-xs shadow-2xl">
                 <h3 class="text-lg font-black text-amber-400 mb-2">💡 TIPS CARA BERMAIN</h3>
@@ -111,7 +105,6 @@
             </div>
         </div>
 
-        <!-- Menu Kustomisasi Skin -->
         <div id="custom-menu" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25" style="display: none;">
             <button class="back-to-main absolute top-4 left-4 bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md cursor-pointer text-lg">
                 ⬅️
@@ -119,22 +112,21 @@
             <h2 class="text-2xl font-black text-amber-400 mb-4">KUSTOMISASI PESAWAT</h2>
             <p class="text-xs text-slate-300 mb-6">Pilih skin warna tempur favoritmu:</p>
             <div class="flex gap-4 mb-6">
-                <button onclick="setSkin(0)" id="skin-btn-0" class="skin-btn p-4 rounded-xl border-2 border-amber-500 bg-slate-900 flex flex-col items-center cursor-pointer">
+                <button onclick="setSkin(0)" id="skin-btn-0" class="skin-btn p-4 rounded-xl border-2 border-amber-500 bg-slate-900 flex flex-col items-center cursor-pointer transition-colors">
                     <div class="w-10 h-10 bg-blue-600 rounded mb-2 flex items-center justify-center text-yellow-300 font-bold">★</div>
                     <span class="text-xs font-bold text-blue-400">Blue Phantom</span>
                 </button>
-                <button onclick="setSkin(1)" id="skin-btn-1" class="skin-btn p-4 rounded-xl border-2 border-slate-700 bg-slate-900 flex flex-col items-center cursor-pointer">
+                <button onclick="setSkin(1)" id="skin-btn-1" class="skin-btn p-4 rounded-xl border-2 border-slate-700 bg-slate-900 flex flex-col items-center cursor-pointer transition-colors">
                     <div class="w-10 h-10 bg-rose-600 rounded mb-2 flex items-center justify-center text-yellow-300 font-bold">★</div>
                     <span class="text-xs font-bold text-rose-400">Crimson Fury</span>
                 </button>
-                <button onclick="setSkin(2)" id="skin-btn-2" class="skin-btn p-4 rounded-xl border-2 border-slate-700 bg-slate-900 flex flex-col items-center cursor-pointer">
+                <button onclick="setSkin(2)" id="skin-btn-2" class="skin-btn p-4 rounded-xl border-2 border-slate-700 bg-slate-900 flex flex-col items-center cursor-pointer transition-colors">
                     <div class="w-10 h-10 bg-emerald-600 rounded mb-2 flex items-center justify-center text-yellow-300 font-bold">★</div>
                     <span class="text-xs font-bold text-emerald-400">Emerald Viper</span>
                 </button>
             </div>
         </div>
 
-        <!-- Menu Pengaturan Suara -->
         <div id="settings-menu" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25" style="display: none;">
             <button class="back-to-main absolute top-4 left-4 bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md cursor-pointer text-lg">
                 ⬅️
@@ -152,7 +144,6 @@
             </div>
         </div>
 
-        <!-- Menu Pause (Jeda Permainan) -->
         <div id="pause-menu" class="absolute inset-0 bg-slate-950/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-30" style="display: none;">
             <h2 class="text-3xl font-black text-amber-400 mb-6">PERMAINAN DIJEDA</h2>
             <div class="flex flex-col gap-3 w-48">
@@ -165,10 +156,9 @@
             </div>
         </div>
 
-        <!-- Menu Selesai / Game Over -->
-        <div id="game-over-menu" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25" style="display: none;">
+        <div id="game-over-menu" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-30" style="display: none;">
             <h1 id="end-title" class="text-3xl font-black text-rose-500 mb-2 drop-shadow-md">MISI GAGAL</h1>
-            <p id="end-desc" class="text-xs text-slate-300 mb-6 max-w-xs">Skor Akhir Anda: 0</p>
+            <p id="end-desc" class="text-xs text-slate-300 mb-6 max-w-xs">Skor Akhir Anda: <span id="final-score" class="text-amber-400 font-bold">0</span></p>
             <div class="flex gap-3">
                 <button id="restart-btn" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl text-sm cursor-pointer shadow-lg">
                     Coba Lagi
@@ -178,11 +168,6 @@
                 </button>
             </div>
         </div>
-    </div>
-
-    <!-- Footer Bersih Tanpa Teks Apapun -->
-    <div class="w-full max-w-md bg-slate-900 border-t border-slate-700 py-2.5 text-center text-[10px] text-slate-500">
-        &nbsp;
     </div>
 
     <script>
@@ -197,27 +182,62 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
+        // Variabel Status Game
         let gameRunning = false;
         let isPaused = false;
         let score = 0;
         let lives = 3;
-        let weaponLevel = 1;
         let selectedLevel = 1;
-        let selectedSkin = 0;
-        let backgroundScrollY = 0;
+        let selectedSkin = 0; // 0: Blue, 1: Red, 2: Green
+        let frameCount = 0;
+        let animationId;
+
+        // Entitas Game
         let clouds = [];
+        let bullets = [];
+        let enemies = [];
+        let particles = [];
+        let boss = null;
 
+        // Skill variables
         let skillCooldown = 0;
-        const maxSkillCooldown = 600;
-
+        const maxSkillCooldown = 300; // 5 detik pada 60fps
         let isAimingSkill = false;
         let crosshair = { x: canvas.width / 2, y: canvas.height / 2, active: false };
 
+        // Audio variables
         let sfxEnabled = true;
         let bgmEnabled = true;
         let audioCtx = null;
         let bgmTimer = 0;
 
+        // Player variables
+        let player = {
+            x: canvas.width / 2,
+            y: canvas.height - 100,
+            width: 40,
+            height: 40,
+            targetX: canvas.width / 2,
+            targetY: canvas.height - 100,
+            invulnerableTime: 0
+        };
+
+        // ==========================================
+        // INISIALISASI CLOUD
+        // ==========================================
+        for(let i=0; i<8; i++) {
+            clouds.push({
+                x: Math.random() * 500,
+                y: Math.random() * 800,
+                size: Math.random() * 40 + 20,
+                speed: Math.random() * 0.5 + 0.2,
+                opacity: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        // ==========================================
+        // EVENT LISTENERS MENU
+        // ==========================================
         document.getElementById('sfx-toggle').addEventListener('change', (e) => { sfxEnabled = e.target.checked; });
         document.getElementById('bgm-toggle').addEventListener('change', (e) => { 
             bgmEnabled = e.target.checked; 
@@ -225,7 +245,82 @@
             else if(bgmEnabled && audioCtx) audioCtx.resume();
         });
 
+        document.getElementById('to-level-select-btn').addEventListener('click', () => {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('level-menu').style.display = 'flex';
+        });
+
+        document.getElementById('to-custom-btn').addEventListener('click', () => {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('custom-menu').style.display = 'flex';
+        });
+
+        document.getElementById('to-settings-btn').addEventListener('click', () => {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('settings-menu').style.display = 'flex';
+        });
+
+        document.querySelectorAll('.back-to-main').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('level-menu').style.display = 'none';
+                document.getElementById('custom-menu').style.display = 'none';
+                document.getElementById('settings-menu').style.display = 'none';
+                document.getElementById('main-menu').style.display = 'flex';
+            });
+        });
+
+        // Tombol Pause & Game Over
+        document.getElementById('pause-btn').addEventListener('click', () => togglePause(true));
+        document.getElementById('resume-btn').addEventListener('click', () => togglePause(false));
+        document.getElementById('quit-to-menu-btn').addEventListener('click', backToMenu);
+        document.getElementById('menu-btn').addEventListener('click', backToMenu);
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            document.getElementById('game-over-menu').style.display = 'none';
+            startGame();
+        });
+
+        // ==========================================
+        // FUNGSI INLINE HTML (Wajib untuk onclick di button)
+        // ==========================================
+        window.prepareLevel = function(level) {
+            selectedLevel = level;
+            document.getElementById('level-menu').style.display = 'none';
+            document.getElementById('tips-popup').style.display = 'flex';
+            
+            // Setup Background berdasarkan level
+            document.getElementById('current-level-val').innerText = level;
+            
+            let count = 3;
+            const timerEl = document.getElementById('countdown-timer');
+            timerEl.innerText = count;
+            
+            const interval = setInterval(() => {
+                count--;
+                if(count > 0) {
+                    timerEl.innerText = count;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('tips-popup').style.display = 'none';
+                    startGame();
+                }
+            }, 1000);
+        };
+
+        window.setSkin = function(skinIndex) {
+            selectedSkin = skinIndex;
+            document.querySelectorAll('.skin-btn').forEach(btn => {
+                btn.classList.remove('border-amber-500');
+                btn.classList.add('border-slate-700');
+            });
+            document.getElementById('skin-btn-' + skinIndex).classList.remove('border-slate-700');
+            document.getElementById('skin-btn-' + skinIndex).classList.add('border-amber-500');
+        };
+
+        // ==========================================
+        // LOGIKA KONTROL & SKILL
+        // ==========================================
         const skillBtn = document.getElementById('special-skill-btn');
+        let isDragging = false;
         
         skillBtn.addEventListener('pointerdown', (e) => {
             if (skillCooldown > 0 || !gameRunning || isPaused) return;
@@ -237,135 +332,31 @@
         });
 
         window.addEventListener('pointermove', (e) => {
-            if (!isAimingSkill) return;
             const rect = canvas.getBoundingClientRect();
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-            crosshair.x = Math.max(20, Math.min(canvas.width - 20, clientX - rect.left));
-            crosshair.y = Math.max(20, Math.min(canvas.height - 20, clientY - rect.top));
+            let clientX = e.clientX - rect.left;
+            let clientY = e.clientY - rect.top;
+
+            if (isAimingSkill) {
+                crosshair.x = Math.max(20, Math.min(canvas.width - 20, clientX));
+                crosshair.y = Math.max(20, Math.min(canvas.height - 20, clientY));
+            } else if (isDragging && gameRunning && !isPaused) {
+                player.targetX = Math.max(player.width/2, Math.min(canvas.width - player.width/2, clientX));
+                // Batasi agar player tidak terlalu ke atas (untuk area game)
+                player.targetY = Math.max(100, Math.min(canvas.height - player.height/2, clientY));
+            }
         });
 
         window.addEventListener('pointerup', () => {
-            if (!isAimingSkill) return;
-            isAimingSkill = false;
-            crosshair.active = false;
-            triggerTargetedSkill(crosshair.x, crosshair.y);
+            isDragging = false;
+            if (isAimingSkill) {
+                isAimingSkill = false;
+                crosshair.active = false;
+                triggerTargetedSkill(crosshair.x, crosshair.y);
+            }
         });
 
-        function triggerTargetedSkill(targetX, targetY) {
-            skillCooldown = maxSkillCooldown;
-            playSound('powerup');
-            
-            createExplosion(targetX, targetY, '#a855f7', 50);
-
-            if (boss && Math.hypot(targetX - boss.x, targetY - boss.y) < 100) {
-                boss.hp -= 35;
-            }
-            if (miniBoss && Math.hypot(targetX - miniBoss.x, targetY - miniBoss.y) < 80) {
-                miniBoss.hp -= 30;
-            }
-            for (let en of enemies) {
-                if (Math.hypot(targetX - en.x, targetY - en.y) < 70) {
-                    en.hp -= 15;
-                }
-            }
-            enemyBullets = enemyBullets.filter(eb => Math.hypot(targetX - eb.x, targetY - eb.y) > 90);
-        }
-
-        document.getElementById('pause-btn').addEventListener('click', () => {
-            togglePause(true);
-        });
-
-        document.getElementById('resume-btn').addEventListener('click', () => {
-            togglePause(false);
-        });
-
-        document.getElementById('quit-to-menu-btn').addEventListener('click', () => {
-            isPaused = false;
-            gameRunning = false;
-            document.getElementById('pause-menu').style.display = 'none';
-            document.getElementById('ui-header').style.display = 'none';
-            document.getElementById('skill-btn-container').style.display = 'none';
-            document.getElementById('main-menu').style.display = 'flex';
-        });
-
-        function togglePause(pause) {
-            isPaused = pause;
-            if (isPaused) {
-                document.getElementById('pause-menu').style.display = 'flex';
-            } else {
-                document.getElementById('pause-menu').style.display = 'none';
-                loop();
-            }
-        }
-
-        function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
-        function playSound(type) {
-            if (!sfxEnabled) return;
-            initAudio();
-            try {
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                let now = audioCtx.currentTime;
-                if (type === 'shoot') {
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(600, now);
-                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.1);
-                    gain.gain.setValueAtTime(0.08, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
-                    osc.start(now);
-                    osc.stop(now + 0.1);
-                } else if (type === 'explosion') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(120, now);
-                    osc.frequency.linearRampToValueAtTime(30, now + 0.3);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
-                    osc.start(now);
-                    osc.stop(now + 0.3);
-                } else if (type === 'powerup') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(300, now);
-                    osc.frequency.exponentialRampToValueAtTime(900, now + 0.3);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
-                    osc.start(now);
-                    osc.stop(now + 0.3);
-                }
-            } catch(e) {}
-        }
-
-        function playBGM() {
-            if (!bgmEnabled || !gameRunning || isPaused) return;
-            initAudio();
-            bgmTimer++;
-            if (bgmTimer % 32 === 0) {
-                try {
-                    let notes = [220, 261.63, 329.63, 392];
-                    let note = notes[Math.floor(Math.random() * notes.length)];
-                    let osc = audioCtx.createOscillator();
-                    let gain = audioCtx.createGain();
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    let now = audioCtx.currentTime;
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(note, now);
-                    gain.gain.setValueAtTime(0.03, now);
-                    gain.gain.linearRampToValueAtTime(0.001, now + 0.4);
-                    osc.start(now);
-                    osc.stop(now + 0.4);
-                } catch(e) {}
-            }
-        }
-
-        for(let i=0; i<8; i++) {
-            clouds.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 4
+        canvas.addEventListener('pointerdown', (e) => {
+            if(!gameRunning || isPaused || isAimingSkill) return;
+            isDragging = true;
+            const rect = canvas.getBoundingClientRect();
+            player.targetX = e.clientX - rect.le
